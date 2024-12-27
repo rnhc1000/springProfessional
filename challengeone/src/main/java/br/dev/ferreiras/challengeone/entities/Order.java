@@ -9,7 +9,8 @@ public class Order {
   private Double basic;
   private Double discount;
 
-  public Order() {};
+  public Order() {
+  }
 
   public Order(Integer code, Double basic, Double discount) {
     this.code = code;
