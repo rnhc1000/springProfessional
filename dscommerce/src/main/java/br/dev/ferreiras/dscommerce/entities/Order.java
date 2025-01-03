@@ -3,6 +3,10 @@ package br.dev.ferreiras.dscommerce.entities;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_order")
@@ -17,9 +21,15 @@ public class Order {
 
   private OrderStatus status;
 
+  @OneToMany(mappedBy = "id.order")
+  private Set<OrderItem> items = new HashSet<>();
+
   @ManyToOne
   @JoinColumn(name = "client_id")
   private User client;
+
+  @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+  private Payment payment;
 
   public Order(Long id, Instant moment, OrderStatus status, Payment payment, User client) {
     this.id = id;
@@ -37,9 +47,10 @@ public class Order {
     this.payment = payment;
   }
 
-  @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
-  private Payment payment;
 
+public List<Product> getProducts() {
+    return items.stream().map(OrderItem::getProduct).toList();
+}
   public Order(Long id, Instant moment, OrderStatus status, User client) {
     this.id = id;
     this.moment = moment;
@@ -80,5 +91,18 @@ public class Order {
 
   public void setClient(User client) {
     this.client = client;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (getClass() != o.getClass()) return false;
+
+    Order order = (Order) o;
+    return Objects.equals(id, order.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(id);
   }
 }
