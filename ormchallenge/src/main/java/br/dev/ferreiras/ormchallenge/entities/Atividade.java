@@ -1,13 +1,16 @@
 package br.dev.ferreiras.ormchallenge.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_atividades")
 public class Atividade {
 
+  @Id
+  @GeneratedValue(strategy= GenerationType.IDENTITY)
   private Long id;
 
   private String nome;
@@ -15,7 +18,15 @@ public class Atividade {
   @Column(columnDefinition = "TEXT")
   private String descricao;
 
+  @Column(name = "preco")
   private Double price;
+
+  @ManyToMany(mappedBy = "atividades")
+  private Set<Participante> participantes = new HashSet<>();
+
+  @ManyToOne
+  @JoinColumn(name = "categoria_id")
+  private Set<Categoria> categoria = new HashSet<>();
 
   public Atividade() {
   }
@@ -57,5 +68,13 @@ public class Atividade {
 
   public void setPrice(Double price) {
     this.price = price;
+  }
+
+  public Set<Participante> getParticipantes() {
+    return participantes;
+  }
+
+  public Set<Categoria> getCategoria() {
+    return categoria;
   }
 }

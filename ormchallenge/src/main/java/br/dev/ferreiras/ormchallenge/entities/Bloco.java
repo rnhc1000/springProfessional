@@ -1,25 +1,27 @@
 package br.dev.ferreiras.ormchallenge.entities;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "tb_blocos")
 public class Bloco {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private LocalDate inicio;
+  @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+  private LocalDateTime inicio;
 
-  private LocalDate fim;
+  @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+  private LocalDateTime fim;
 
   public Bloco() {
   }
 
-  public Bloco(Long id, LocalDate inicio, LocalDate fim) {
+  public Bloco(Long id, LocalDateTime inicio, LocalDateTime fim) {
     this.id = id;
     this.inicio = inicio;
     this.fim = fim;
@@ -33,19 +35,19 @@ public class Bloco {
     this.id = id;
   }
 
-  public LocalDate getInicio() {
+  public LocalDateTime getInicio() {
     return inicio;
   }
 
-  public void setInicio(LocalDate inicio) {
+  public void setInicio(LocalDateTime inicio) {
     this.inicio = inicio;
   }
 
-  public LocalDate getFim() {
+  public LocalDateTime getFim() {
     return fim;
   }
 
-  public void setFim(LocalDate fim) {
+  public void setFim(LocalDateTime fim) {
     this.fim = fim;
   }
 }
