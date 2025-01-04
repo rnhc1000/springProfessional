@@ -2,8 +2,8 @@ package br.dev.ferreiras.ormchallenge.entities;
 
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_atividades")
@@ -22,11 +22,14 @@ public class Atividade {
   private Double price;
 
   @ManyToMany(mappedBy = "atividades")
-  private Set<Participante> participantes = new HashSet<>();
+  private List<Participante> participantes = new ArrayList<>();
 
   @ManyToOne
   @JoinColumn(name = "categoria_id")
-  private Set<Categoria> categoria = new HashSet<>();
+  private Categoria categoria;
+
+  @OneToMany(mappedBy = "atividade")
+  private List<Bloco> blocos = new ArrayList<>();
 
   public Atividade() {
   }
@@ -70,11 +73,15 @@ public class Atividade {
     this.price = price;
   }
 
-  public Set<Participante> getParticipantes() {
+  public List<Participante> getParticipantes() {
     return participantes;
   }
 
-  public Set<Categoria> getCategoria() {
+  public Categoria getCategoria() {
     return categoria;
+  }
+
+  public List<Bloco> getBlocos() {
+    return blocos;
   }
 }

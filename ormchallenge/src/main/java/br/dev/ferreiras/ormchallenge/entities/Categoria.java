@@ -2,7 +2,9 @@ package br.dev.ferreiras.ormchallenge.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,7 +19,7 @@ public class Categoria {
   private String descricao;
 
   @OneToMany(mappedBy = "categoria")
-  private Set<Atividade> atividades = new HashSet<>();
+  private List<Atividade> atividades = new ArrayList<>();
 
   public Categoria() {
   }
@@ -41,5 +43,9 @@ public class Categoria {
 
   public void setDescricao(String descricao) {
     this.descricao = descricao;
+  }
+
+  public List<Atividade> getAtividades() {
+    return atividades;
   }
 }
