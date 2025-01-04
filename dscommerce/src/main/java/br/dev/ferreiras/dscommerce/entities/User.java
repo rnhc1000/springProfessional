@@ -20,8 +20,10 @@ public class User {
   private String email;
 
   private String phone;
+
   @Column(name = "birth_date")
   private LocalDate birthOfDate;
+
   private String password;
 
   @OneToMany(mappedBy = "client")
