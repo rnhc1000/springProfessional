@@ -1,6 +1,9 @@
 package br.dev.ferreiras.dscommerce.dto;
 
 import br.dev.ferreiras.dscommerce.entities.Product;
+/*
+ModelMapper - lib to copy attributes of an object to another object
+ */
 
 public class ProductDTO{
   private Long id;
@@ -33,41 +36,20 @@ public class ProductDTO{
     return id;
   }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
-
   public String getName() {
     return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
   }
 
   public Double getPrice() {
     return price;
   }
 
-  public void setPrice(Double price) {
-    this.price = price;
-  }
-
   public String getDescription() {
     return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
   }
 
   public String getImgUrl() {
     return imgUrl;
   }
-
-  public void setImgUrl(String imgUrl) {
-    this.imgUrl = imgUrl;
-  }
-
 
 }
