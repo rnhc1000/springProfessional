@@ -1,17 +1,27 @@
 package br.dev.ferreiras.crudchallenge.dto;
 
 import br.dev.ferreiras.crudchallenge.entities.Client;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
 
 import java.time.LocalDate;
 
 public class ClientDTO {
-  private final Long id;
+  private Long id;
 
-  private final String name;
-  private final String cpf;
-  private final Double income;
-  private final LocalDate birthDate;
-  private final Integer children;
+  @NotBlank(message = "Provide a valid name!")
+  private String name;
+
+  private String cpf;
+  private Double income;
+
+  @PastOrPresent(message = "Birth date invalid(future date)!")
+  private LocalDate birthDate;
+
+  private Integer children;
+
+  public ClientDTO() {
+  }
 
   public ClientDTO(Long id, String name, String cpf, Double income, LocalDate birthDate, Integer children) {
     this.id = id;
@@ -23,7 +33,6 @@ public class ClientDTO {
   }
 
   public ClientDTO(Client entity) {
-
     id = entity.getId();
     name = entity.getName();
     cpf = entity.getCpf();

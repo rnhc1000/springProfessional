@@ -11,22 +11,23 @@ ModelMapper - lib to copy attributes of an object to another object
 
 public class ProductDTO{
 
-  private final Long id;
+  private Long id;
 
   @Size(min = 3, max = 80, message = "Minimum 3, maximum 80 characters")
   @NotBlank(message = "required")
-  private final String name;
+  private String name;
 
   @Size(min = 10, message = "Minimum of 10 characters!")
   @NotBlank(message = "required")
-  private final String description;
+  private String description;
 
   @Positive(message = "Price must be positive!")
-  private final Double price;
+  private Double price;
 
-  private final String imgUrl;
+  private String imgUrl;
 
-
+  public ProductDTO() {
+  }
 
   public ProductDTO(Long id, String name, String description, Double price, String imgUrl) {
     this.id = id;
