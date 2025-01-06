@@ -16,7 +16,10 @@ public class ClientService {
 
   private final ClientRepository clientRepository;
 
+  private static final String RESOURCE_NOT_FOUND = "Resource not found!!!";
+
   private static final Logger logger = LoggerFactory.getLogger(ClientService.class);
+
 
   public ClientService(ClientRepository clientRepository) {
     this.clientRepository = clientRepository;
@@ -34,7 +37,7 @@ public class ClientService {
   public ClientDTO returnClientById(Long id) {
 
     if (!clientRepository.existsById(id)) {
-      throw new ResourceNotFoundException("Resource not found!!!");
+      throw new ResourceNotFoundException(RESOURCE_NOT_FOUND);
     }
     Client client = clientRepository.getReferenceById(id);
 
@@ -60,7 +63,7 @@ public class ClientService {
   public ClientDTO updateClient(Long id, ClientDTO clientDTO) {
 
     if (!clientRepository.existsById(id)) {
-      throw new ResourceNotFoundException("Resource not found!!!");
+      throw new ResourceNotFoundException(RESOURCE_NOT_FOUND);
     }
     Client client = clientRepository.getReferenceById(id);
     copyDtoToEntity(clientDTO, client);
@@ -73,7 +76,7 @@ public class ClientService {
   @Transactional
   public void deleteClient(Long id) {
     if(!clientRepository.existsById(id)) {
-      throw new ResourceNotFoundException("Resource not found!!!");
+      throw new ResourceNotFoundException(RESOURCE_NOT_FOUND);
     }
      clientRepository.deleteById(id);
   }
