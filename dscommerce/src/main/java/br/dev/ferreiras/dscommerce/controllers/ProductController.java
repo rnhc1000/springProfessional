@@ -2,6 +2,7 @@ package br.dev.ferreiras.dscommerce.controllers;
 
 import br.dev.ferreiras.dscommerce.dto.ProductDTO;
 import br.dev.ferreiras.dscommerce.services.ProductService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -37,7 +38,7 @@ public class ProductController {
   }
 
   @PostMapping
-  public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO productDTO) {
+  public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO productDTO) {
 
     productDTO = productService.insert(productDTO);
     URI uri = ServletUriComponentsBuilder
@@ -50,7 +51,7 @@ public class ProductController {
   }
 
   @PutMapping(value = "/{id}")
-  public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+  public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO productDTO) {
 
     productDTO = productService.update(id, productDTO);
     URI uri = ServletUriComponentsBuilder
@@ -60,5 +61,14 @@ public class ProductController {
     logger.info("Name updated Product, {}", productDTO.getName());
 
     return ResponseEntity.created(uri).body(productDTO);
+  }
+
+  @DeleteMapping(value = "/{id}")
+  public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+
+    productService.delete(id);
+
+    return ResponseEntity.noContent().build();
+
   }
 }

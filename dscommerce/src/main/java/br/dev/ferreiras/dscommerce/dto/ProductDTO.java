@@ -1,20 +1,32 @@
 package br.dev.ferreiras.dscommerce.dto;
 
 import br.dev.ferreiras.dscommerce.entities.Product;
+import jakarta.annotation.Nonnull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 /*
 ModelMapper - lib to copy attributes of an object to another object
  */
 
 public class ProductDTO{
-  private Long id;
-  private String name;
-  private String description;
-  private Double price;
-  private String imgUrl;
+
+  private final Long id;
+
+  @Size(min = 3, max = 80, message = "Minimum 3, maximum 80 characters")
+  @NotBlank(message = "required")
+  private final String name;
+
+  @Size(min = 10, message = "Minimum of 10 characters!")
+  @NotBlank(message = "required")
+  private final String description;
+
+  @Positive(message = "Price must be positive!")
+  private final Double price;
+
+  private final String imgUrl;
 
 
-  public ProductDTO() {
-  }
 
   public ProductDTO(Long id, String name, String description, Double price, String imgUrl) {
     this.id = id;
