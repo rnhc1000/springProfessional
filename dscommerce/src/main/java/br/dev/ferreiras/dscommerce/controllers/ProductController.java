@@ -25,17 +25,28 @@ public class ProductController {
     this.productService = productService;
   }
 
-  @GetMapping(value="/{id}")
+  @GetMapping(value = "/{id}")
   public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
 
-   return ResponseEntity.ok(productService.findById(id));
+    return ResponseEntity.ok(productService.findById(id));
   }
 
   @GetMapping
   public ResponseEntity<Page<ProductDTO>> findAll(
-      @RequestParam(name = "name", defaultValue = "") String name, Pageable pageable) {
+      @RequestParam(value = "page", defaultValue = "0")  Integer page,
+      @RequestParam(value = "size", defaultValue = "10") Integer size,
+      @RequestParam(name = "name",  defaultValue = "")   String name, Pageable pageable) {
 
     return ResponseEntity.ok(productService.findAll(name, pageable));
+  }
+
+  @GetMapping(value = "/categories")
+  public ResponseEntity<Page<ProductDTO>> findProductsAndCategories(
+      @RequestParam(value = "page", defaultValue = "0")  Integer page,
+      @RequestParam(value = "size", defaultValue = "10") Integer size,
+      @RequestParam(name = "name",  defaultValue = "")   String name, Pageable pageable) {
+
+    return ResponseEntity.ok(productService.findAllJoin(name, pageable));
   }
 
   @PostMapping
