@@ -52,6 +52,14 @@ public class ProductService {
      */
   }
 
+  @Transactional(readOnly = true)
+  public Page<ProductDTO> findAllJoin(String name, Pageable pageable) {
+
+    Page<Product> products = productRepository.findProductCategories(name, pageable);
+
+    return products.map(ProductDTO::new);
+  }
+
   @Transactional
   public ProductDTO insert(ProductDTO productDTO) {
 
