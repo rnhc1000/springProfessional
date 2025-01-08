@@ -5,6 +5,9 @@ import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
+import java.util.List;
 /*
 ModelMapper - lib to copy attributes of an object to another object
  */
@@ -16,6 +19,10 @@ public class ProductDTO{
   @Size(min = 3, max = 80, message = "Minimum 3, maximum 80 characters")
   @NotBlank(message = "required")
   private String name;
+
+
+
+  private List<CategoryDTO> categories = new ArrayList<>();
 
   @Size(min = 10, message = "Minimum of 10 characters!")
   @NotBlank(message = "required")
@@ -43,6 +50,7 @@ public class ProductDTO{
     description = entity.getDescription();
     price = entity.getPrice();
     imgUrl = entity.getImgUrl();
+    categories = entity.getCategories().stream().map(CategoryDTO::new).toList();
   }
 
   public Long getId() {
@@ -63,6 +71,10 @@ public class ProductDTO{
 
   public String getImgUrl() {
     return imgUrl;
+  }
+
+  public List<CategoryDTO> getCategories() {
+    return categories;
   }
 
 }
