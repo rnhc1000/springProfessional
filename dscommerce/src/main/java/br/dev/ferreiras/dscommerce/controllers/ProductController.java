@@ -33,18 +33,18 @@ public class ProductController {
 
   @GetMapping
   public ResponseEntity<Page<ProductDTO>> findAll(
-      @RequestParam(value = "page", defaultValue = "0")  Integer page,
+      @RequestParam(value = "page", defaultValue = "0") Integer page,
       @RequestParam(value = "size", defaultValue = "10") Integer size,
-      @RequestParam(name = "name",  defaultValue = "")   String name, Pageable pageable) {
+      @RequestParam(name = "name", defaultValue = "") String name, Pageable pageable) {
 
     return ResponseEntity.ok(productService.findAll(name, pageable));
   }
 
   @GetMapping(value = "/categories")
   public ResponseEntity<Page<ProductDTO>> findProductsAndCategories(
-      @RequestParam(value = "page", defaultValue = "0")  Integer page,
+      @RequestParam(value = "page", defaultValue = "0") Integer page,
       @RequestParam(value = "size", defaultValue = "10") Integer size,
-      @RequestParam(name = "name",  defaultValue = "")   String name, Pageable pageable) {
+      @RequestParam(name = "name", defaultValue = "") String name, Pageable pageable) {
 
     return ResponseEntity.ok(productService.findAllJoin(name, pageable));
   }
@@ -57,8 +57,8 @@ public class ProductController {
         .fromCurrentRequestUri()
         .path("/{id}")
         .buildAndExpand(productDTO.getId()).toUri();
-
     logger.info("ID new Product, {}", productDTO.getId());
+
     return ResponseEntity.created(uri).body(productDTO);
   }
 
@@ -81,6 +81,6 @@ public class ProductController {
     productService.delete(id);
 
     return ResponseEntity.noContent().build();
-
   }
+
 }
