@@ -1,17 +1,16 @@
 package br.dev.ferreiras.dscommerce.entities;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
 @Table(name = "tb_user")
-public class User {
+public class User implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +24,7 @@ public class User {
   private String phone;
 
   @Column(name = "birth_date")
-  private LocalDate birthOfDate;
+  private LocalDate birthDate;
 
   private String password;
 
@@ -43,12 +42,12 @@ public class User {
   public User() {
   }
 
-  public User(Long id, String name, String email, String phone, LocalDate birthOfDate, String password) {
+  public User(Long id, String name, String email, String phone, LocalDate birthDate, String password) {
     this.id = id;
     this.name = name;
     this.email = email;
     this.phone = phone;
-    this.birthOfDate = birthOfDate;
+    this.birthDate = birthDate;
     this.password = password;
   }
 
@@ -84,16 +83,46 @@ public class User {
     this.phone = phone;
   }
 
-  public LocalDate getBirthOfDate() {
-    return birthOfDate;
+  public LocalDate getBirthDate() {
+    return birthDate;
   }
 
-  public void setBirthOfDate(LocalDate birthOfDate) {
-    this.birthOfDate = birthOfDate;
+  public void setBirthDate(LocalDate birthDate) {
+    this.birthDate = birthDate;
+  }
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return (Collection<? extends GrantedAuthority>) roles;
   }
 
   public String getPassword() {
     return password;
+  }
+
+  @Override
+  public String getUsername() {
+    return email;
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return true;
   }
 
   public void setPassword(String password) {
@@ -124,7 +153,7 @@ public class User {
            ", name='" + name + '\'' +
            ", email='" + email + '\'' +
            ", phone='" + phone + '\'' +
-           ", birthOfDate=" + birthOfDate +
+           ", birthDate=" + birthDate +
            ", password='" + password + '\'' +
            '}';
   }
