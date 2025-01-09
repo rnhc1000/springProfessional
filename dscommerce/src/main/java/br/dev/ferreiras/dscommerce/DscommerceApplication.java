@@ -45,7 +45,7 @@ public class DscommerceApplication implements CommandLineRunner {
       logger.info("Error encoding/decoding password");
     }
 
-    String email = "maria@gmail.com";
+    String email = "alex@gmail.com";
     List<UserDetailsProjection> user = userRepository.searchUserAndRolesByEmail(email);
 
     for (UserDetailsProjection details : user) {
