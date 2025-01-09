@@ -93,7 +93,7 @@ public class User implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return (Collection<? extends GrantedAuthority>) roles;
+    return roles;
   }
 
   public String getPassword() {
@@ -170,5 +170,9 @@ public class User implements UserDetails {
       }
     }
     return false;
+  }
+
+  public Set<Role> getRoles() {
+    return roles;
   }
 }
