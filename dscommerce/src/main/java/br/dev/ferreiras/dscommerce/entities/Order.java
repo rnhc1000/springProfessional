@@ -16,7 +16,7 @@ public class Order {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(columnDefinition =  "TIMESTAMP WITHOUT TIME ZONE")
+  @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
   private Instant moment;
 
   private OrderStatus status;
@@ -48,9 +48,10 @@ public class Order {
   }
 
 
-public List<Product> getProducts() {
+  public List<Product> getProducts() {
     return items.stream().map(OrderItem::getProduct).toList();
-}
+  }
+
   public Order(Long id, Instant moment, OrderStatus status, User client) {
     this.id = id;
     this.moment = moment;
