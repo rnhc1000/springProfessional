@@ -4,6 +4,7 @@ import br.dev.ferreiras.dscommerce.entities.OrderItem;
 import br.dev.ferreiras.dscommerce.entities.OrderStatus;
 import br.dev.ferreiras.dscommerce.entities.Order;
 import br.dev.ferreiras.dscommerce.entities.Product;
+import jakarta.validation.constraints.NotEmpty;
 
 
 import java.time.Instant;
@@ -18,6 +19,7 @@ public class OrderDTO {
   private UserMinDTO client;
   private PaymentDTO payment;
 
+  @NotEmpty(message = "Order must have one item, at least!")
   private List<OrderItemDTO> items = new ArrayList<>();
 
   public OrderDTO() {
@@ -37,8 +39,9 @@ public class OrderDTO {
     status = entity.getStatus();
     client = new UserMinDTO(entity.getId(), entity.getClient().getName());
     payment = (entity.getPayment()) == null ? null : new PaymentDTO(entity.getId(), entity.getMoment());
-    for(Product product : entity.getProducts()) {
-      OrderItemDTO productDTO = new OrderItemDTO(product);
+    for(OrderItem item : entity.getItems()) {
+      OrderItemDTO orderItemDTO = new OrderItemDTO(item);
+      items.add(orderItemDTO);
     }
   }
 

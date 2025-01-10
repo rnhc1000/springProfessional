@@ -94,6 +94,10 @@ public class Order {
     this.client = client;
   }
 
+  public Set<OrderItem> getItems() {
+    return items;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (getClass() != o.getClass()) return false;
