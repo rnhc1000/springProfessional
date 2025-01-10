@@ -1,15 +1,24 @@
 package br.dev.ferreiras.dscommerce.services;
 
+import br.dev.ferreiras.dscommerce.dto.UserDTO;
 import br.dev.ferreiras.dscommerce.entities.Role;
 import br.dev.ferreiras.dscommerce.entities.User;
 import br.dev.ferreiras.dscommerce.projections.UserDetailsProjection;
 import br.dev.ferreiras.dscommerce.repositories.UserRepository;
+import br.dev.ferreiras.dscommerce.services.exceptions.ResourceNotFoundException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -51,6 +60,28 @@ public class UserService implements UserDetailsService {
     }
 
     return user;
+  }
+
+  protected User getAuthenticatedUser() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    Jwt jwtPrincipal = (Jwt) authentication.getPrincipal();
+    String username = jwtPrincipal.getClaim("username");
+
+    return userRepository.findByEmail(username).orElseThrow(
+        () -> new ResourceNotFoundException("User not found!!!")
+    );
+  }
+
+  @Transactional(readOnly = true)
+  public UserDTO getUserAuthenticated() {
+    User user = getAuthenticatedUser();
+    Set<String> roles = new HashSet<>();
+
+    for (GrantedAuthority role : user.getRoles()) {
+      roles.add(role.getAuthority());
+    }
+
+    return new UserDTO(user.getName(), user.getEmail(), user.getPhone(), user.getBirthDate(), roles);
   }
 
 }
