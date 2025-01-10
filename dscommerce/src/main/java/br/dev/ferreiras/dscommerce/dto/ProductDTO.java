@@ -3,6 +3,7 @@ package br.dev.ferreiras.dscommerce.dto;
 import br.dev.ferreiras.dscommerce.entities.Product;
 import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
@@ -21,9 +22,6 @@ public class ProductDTO{
   private String name;
 
 
-
-  private List<CategoryDTO> categories = new ArrayList<>();
-
   @Size(min = 10, message = "Minimum of 10 characters!")
   @NotBlank(message = "required")
   private String description;
@@ -32,6 +30,9 @@ public class ProductDTO{
   private Double price;
 
   private String imgUrl;
+
+  @NotEmpty(message = "There must at least one category")
+  private List<CategoryDTO> categories = new ArrayList<>();
 
   public ProductDTO() {
   }

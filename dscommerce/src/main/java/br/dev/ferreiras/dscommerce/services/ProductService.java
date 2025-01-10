@@ -1,6 +1,9 @@
 package br.dev.ferreiras.dscommerce.services;
 
+import br.dev.ferreiras.dscommerce.dto.CategoryDTO;
 import br.dev.ferreiras.dscommerce.dto.ProductDTO;
+import br.dev.ferreiras.dscommerce.dto.ProductMinDTO;
+import br.dev.ferreiras.dscommerce.entities.Category;
 import br.dev.ferreiras.dscommerce.entities.Product;
 import br.dev.ferreiras.dscommerce.repositories.ProductRepository;
 import br.dev.ferreiras.dscommerce.services.exceptions.DatabaseException;
@@ -60,6 +63,16 @@ public class ProductService {
     return products.map(ProductDTO::new);
   }
 
+  @Transactional(readOnly = true)
+  public Page<ProductMinDTO> findAllJoinMinDTO(String name, Pageable pageable) {
+
+    Page<Product> products = productRepository.findProductCategories(name, pageable);
+
+    return  products.map(product -> new ProductMinDTO(
+        product.getId(), product.getName(), product.getPrice(), product.getImgUrl()
+    ));
+  }
+
   @Transactional
   public ProductDTO insert(ProductDTO productDTO) {
 
@@ -107,5 +120,10 @@ public class ProductService {
     entity.setDescription(productDTO.getDescription());
     entity.setPrice(productDTO.getPrice());
     entity.setImgUrl(productDTO.getImgUrl());
+    entity.getCategories().clear();
+    for(CategoryDTO categoryDTO : productDTO.getCategories()) {
+      Category category = new Category(categoryDTO.getId(), categoryDTO.getName());
+      entity.getCategories().add(category);
+    }
   }
 }
