@@ -1,6 +1,7 @@
 package br.dev.ferreiras.dscommerce.services;
 
 import br.dev.ferreiras.dscommerce.dto.ProductDTO;
+import br.dev.ferreiras.dscommerce.dto.ProductMinDTO;
 import br.dev.ferreiras.dscommerce.entities.Product;
 import br.dev.ferreiras.dscommerce.repositories.ProductRepository;
 import br.dev.ferreiras.dscommerce.services.exceptions.DatabaseException;
@@ -58,6 +59,16 @@ public class ProductService {
     Page<Product> products = productRepository.findProductCategories(name, pageable);
 
     return products.map(ProductDTO::new);
+  }
+
+  @Transactional(readOnly = true)
+  public Page<ProductMinDTO> findAllJoinMinDTO(String name, Pageable pageable) {
+
+    Page<Product> products = productRepository.findProductCategories(name, pageable);
+
+    return  products.map(product -> new ProductMinDTO(
+        product.getId(), product.getName(), product.getPrice(), product.getImgUrl()
+    ));
   }
 
   @Transactional

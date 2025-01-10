@@ -1,6 +1,7 @@
 package br.dev.ferreiras.dscommerce.controllers;
 
 import br.dev.ferreiras.dscommerce.dto.ProductDTO;
+import br.dev.ferreiras.dscommerce.dto.ProductMinDTO;
 import br.dev.ferreiras.dscommerce.services.ProductService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -48,6 +49,15 @@ public class ProductController {
       @RequestParam(name = "name", defaultValue = "") String name, Pageable pageable) {
 
     return ResponseEntity.ok(productService.findAllJoin(name, pageable));
+  }
+
+  @GetMapping(value = "/short")
+  public ResponseEntity<Page<ProductMinDTO>> findProductsShort(
+      @RequestParam(value = "page", defaultValue = "0") Integer page,
+      @RequestParam(value = "size", defaultValue = "10") Integer size,
+      @RequestParam(name = "name", defaultValue = "") String name, Pageable pageable) {
+
+    return ResponseEntity.ok(productService.findAllJoinMinDTO(name, pageable));
   }
 
   @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
