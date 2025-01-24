@@ -1,5 +1,6 @@
 package com.devsuperior.dsmeta.controllers;
 
+import com.devsuperior.dsmeta.annotations.LogExecutionTime;
 import com.devsuperior.dsmeta.dto.ReportSalesDTO;
 import com.devsuperior.dsmeta.dto.SummarySalesDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class SaleController {
 		return ResponseEntity.ok(service.returnPagedReportSales(pageable,minDate, maxDate, name));
 	}
 
+	@LogExecutionTime
 	@GetMapping(value = "/summary")
 	public ResponseEntity<List<SummarySalesDTO>> getSummary(
 			@RequestParam(defaultValue = "") final String minDate,

@@ -10,10 +10,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.devsuperior</groupId>
-	<artifactId>dsmeta</artifactId>
+	<artifactId>metadata-spring-boot-starter</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>dsmeta</name>
-	<description>Vendas Challenge</description>
+	<description>Sales Challenge</description>
 	<properties>
 		<java.version>21</java.version>
 	</properties>
@@ -43,6 +43,17 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+			<version>3.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
