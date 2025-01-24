@@ -1,5 +1,6 @@
 package com.devsuperior.dsmeta.services;
 
+import com.devsuperior.dsmeta.annotations.LogExecutionTime;
 import com.devsuperior.dsmeta.dto.ReportSalesDTO;
 import com.devsuperior.dsmeta.dto.SaleMinDTO;
 import com.devsuperior.dsmeta.dto.SummarySalesDTO;
@@ -32,6 +33,7 @@ public class SaleService {
     this.repository = repository;
   }
 
+  @LogExecutionTime
   @Transactional(readOnly = true)
   public SaleMinDTO findById(Long id) {
     if (!repository.existsById(id)) {
@@ -41,6 +43,7 @@ public class SaleService {
     return new SaleMinDTO(result);
   }
 
+  @LogExecutionTime
   @Transactional(readOnly = true)
   public Page<SaleMinDTO> returnAllPaged(Pageable pageable) {
     Page<Sale> sales = repository.findAll(pageable);
@@ -48,6 +51,7 @@ public class SaleService {
     return sales.map(SaleMinDTO::new);
   }
 
+  @LogExecutionTime
   @Transactional(readOnly = true)
   public List<SummarySalesDTO> returnSalesBySeller(String minDate, String maxDate) {
 
@@ -63,6 +67,7 @@ public class SaleService {
     return summary.stream().map(SummarySalesDTO::new).toList();
   }
 
+  @LogExecutionTime
   @Transactional(readOnly = true)
   public Page<ReportSalesDTO> returnPagedReportSales(Pageable pageable, String minDate, String maxDate, String name) {
     if (logger.isInfoEnabled()) {
@@ -81,6 +86,7 @@ public class SaleService {
     return reports.map(ReportSalesDTO::new);
   }
 
+  @LogExecutionTime
   private LocalDate[] cleanDate(String minDate, String maxDate) {
     LocalDate start = null;
     LocalDate end = null;

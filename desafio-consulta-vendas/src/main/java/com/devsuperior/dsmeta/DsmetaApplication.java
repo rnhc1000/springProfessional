@@ -1,5 +1,7 @@
 package com.devsuperior.dsmeta;
 
+import com.devsuperior.dsmeta.config.MetaData;
+import com.devsuperior.dsmeta.config.MetaDataConfig;
 import com.devsuperior.dsmeta.dto.SummarySalesDTO;
 import com.devsuperior.dsmeta.projections.SummarySales;
 import com.devsuperior.dsmeta.repositories.SaleRepository;
@@ -8,18 +10,24 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.data.jpa.repository.Meta;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootApplication
+@EnableAspectJAutoProxy
 public class DsmetaApplication  implements CommandLineRunner {
 
 	private static final Logger logger = LoggerFactory.getLogger(DsmetaApplication.class);
 	private final SaleRepository saleRepository;
 
-  public DsmetaApplication(SaleRepository saleRepository) {
+	private final MetaData metaData;
+
+  public DsmetaApplication(SaleRepository saleRepository, MetaData metaData) {
     this.saleRepository = saleRepository;
+    this.metaData = metaData;
   }
 
   public static void main(String[] args) {
@@ -34,5 +42,8 @@ public class DsmetaApplication  implements CommandLineRunner {
 		for( SummarySalesDTO obj : result)  {
 			logger.info("SellerName: {}, Total: {}", obj.getSellerName() ,obj.getTotal());
 		}
+
+		List<String> props = metaData.metaData();
+		logger.info("Properties: {}", props);
 	}
 }
